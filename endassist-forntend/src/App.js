@@ -1,17 +1,39 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Header from "./components/common/Header";
-import Layout from "./components/common/Layout";
 import Footer from "./components/common/Footer";
+import { useAuth } from "./context/AuthProvider";
+import HomePage from "./pages/HomePage";
+import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
+import { ToastContainer } from "react-toastify";
+import AboutUsPage from "./pages/AboutUsPage";
+import PersonalizedCarePage from "./pages/PersonalizedCarePage";
+
+function ProtectedRoute({ element }) {
+  const { user, token } = useAuth();
+  return user && token ? element : <Navigate to="/" replace />;
+}
 
 function App() {
+  const { user, token } = useAuth();
+
   return (
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+        {user == null ? (
+          <Route path="/" element={<LandingPage />} />
+        ) : (
+          <Route path="/" element={<ProtectedRoute element={<HomePage />} />} />
+        )}
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/about" element={<AboutUsPage />} />
+        <Route path="/personalized-care" element={<PersonalizedCarePage />} />
       </Routes>
-      <Footer/>
+      <ToastContainer position="top-right" />
+      <Footer />
     </>
   );
 }

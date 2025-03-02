@@ -12,8 +12,11 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthProvider";
+import { Divider } from "@mui/material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout";
 const pages = [
   { name: "Home", url: "/" },
   { name: "Personalized Care", url: "/personalized-care" },
@@ -21,7 +24,6 @@ const pages = [
   { name: "Diagnosis", url: "/diagnosis" },
   { name: "About", url: "/about" },
 ];
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 export default function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -41,8 +43,8 @@ export default function Header() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  const [user, setUser] = useState(true);
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [selectedPage, setSelectedPage] = useState(pages[0].name);
   return (
     <AppBar position="static" sx={{ backgroundColor: "white" }}>
@@ -89,6 +91,7 @@ export default function Header() {
               {pages.map((page, index) => (
                 <MenuItem key={index}>
                   <NavLink
+                    to={page.url}
                     onClick={() => {
                       setSelectedPage(page.name);
                       handleCloseNavMenu();
@@ -110,21 +113,27 @@ export default function Header() {
                   </NavLink>
                 </MenuItem>
               ))}
-              <Button
-                sx={{ m: 1, width: "90%" }}
-                variant="outlined"
-                color="success"
-              >
-                Log In
-              </Button>
-              <br />
-              <Button
-                sx={{ mx: 1, width: "90%" }}
-                variant="contained"
-                color="success"
-              >
-                Register
-              </Button>
+              {!user && (
+                <>
+                  <Button
+                    sx={{ m: 1, width: "90%" }}
+                    variant="outlined"
+                    color="success"
+                    onClick={() => navigate("/login")}
+                  >
+                    Log In
+                  </Button>
+                  <br />
+                  <Button
+                    sx={{ mx: 1, width: "90%" }}
+                    variant="contained"
+                    color="success"
+                    onClick={() => navigate("/register")}
+                  >
+                    Register
+                  </Button>
+                </>
+              )}
             </Menu>
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" }, mr: 1 }}>
@@ -203,13 +212,26 @@ export default function Header() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography sx={{ textAlign: "center" }}>
-                      {setting}
-                    </Typography>
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">
+                    {user ? user.name : ""}
+                  </Typography>
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <SettingsIcon sx={{ mr: "1.5rem" }} />
+                  <Typography textAlign="center">Settings</Typography>
+                </MenuItem>
+                <div
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  <MenuItem onClick={handleCloseUserMenu}>
+                    <LogoutIcon sx={{ mr: "1.5rem" }} />
+                    <Typography textAlign="center">Logout</Typography>
                   </MenuItem>
-                ))}
+                </div>
               </Menu>
             </Box>
           ) : (
@@ -222,10 +244,18 @@ export default function Header() {
                 ml: { xs: "0rem", md: "5rem" },
               }}
             >
-              <Button variant="outlined" color="success">
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={() => navigate("/login")}
+              >
                 Log In
               </Button>
-              <Button variant="contained" color="success">
+              <Button
+                variant="contained"
+                color="success"
+                onClick={() => navigate("/register")}
+              >
                 Register
               </Button>
             </Box>
