@@ -9,6 +9,8 @@ import LoginPage from "./pages/LoginPage";
 import { ToastContainer } from "react-toastify";
 import AboutUsPage from "./pages/AboutUsPage";
 import PersonalizedCarePage from "./pages/PersonalizedCarePage";
+import ChatAssistant from "./pages/ChatAssistantPage";
+import ChatDrawer from "./components/ChatDrawer";
 
 function ProtectedRoute({ element }) {
   const { user, token } = useAuth();
@@ -31,6 +33,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/personalized-care" element={<PersonalizedCarePage />} />
+        <Route path="/diagnosis" element={<ChatDrawer />} />
       </Routes>
       <ToastContainer position="top-right" />
       <Footer />
