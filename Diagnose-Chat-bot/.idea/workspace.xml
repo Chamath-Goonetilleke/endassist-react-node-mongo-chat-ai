@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ceb64486-9a71-4b8b-88ca-68c491c4c74e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/vercel.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/cicd.yaml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LICENSE" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/research/trials.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/helper.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/prompt.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/src/prompt.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/style.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/store_index.py" beforeDir="false" afterPath="$PROJECT_DIR$/store_index.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/chat.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../endassist-forntend/src/pages/ChatAssistantPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../endassist-forntend/src/pages/ChatAssistantPage.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vercel.json" beforeDir="false" afterPath="$PROJECT_DIR$/vercel.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +105,7 @@
       <updated>1740939127678</updated>
       <workItem from="1740939128888" duration="5195000" />
       <workItem from="1741548857501" duration="1389000" />
-      <workItem from="1741734239888" duration="3436000" />
+      <workItem from="1741734239888" duration="4355000" />
     </task>
     <servers />
   </component>
