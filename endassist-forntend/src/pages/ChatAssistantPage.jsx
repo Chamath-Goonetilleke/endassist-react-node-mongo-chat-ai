@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import SendIcon from "@mui/icons-material/Send";
+import { getAnswer } from "../services/chatService";
 
 
 const ChatCard = styled(Card)(({ theme }) => ({
@@ -135,28 +136,51 @@ const ChatAssistant = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (input.trim() === "") return;
-
+  const getTime=()=>{
     const now = new Date();
-    const time = `${now.getHours()}:${now
+    return `${now.getHours()}:${now
       .getMinutes()
       .toString()
       .padStart(2, "0")}`;
+  }
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    if (input.trim() === "") return;
+
+    
 
     // Add user message
-    setMessages([...messages, { text: input, sender: "user", time }]);
+    setMessages([
+      ...messages,
+      { text: input, sender: "user", time: getTime() },
+    ]);
 
     // Simulate bot response
-    setTimeout(() => {
-      const botResponse = {
-        text: "I'm a medical chatbot. How can I help you today?",
-        sender: "bot",
-        time,
-      };
-      setMessages((prev) => [...prev, botResponse]);
-    }, 1000);
+    // setTimeout(() => {
+    //   const botResponse = {
+    //     text: "I'm a medical chatbot. How can I help you today?",
+    //     sender: "bot",
+    //     time,
+    //   };
+    //   setMessages((prev) => [...prev, botResponse]);
+    // }, 1000);
+
+    const formData =  new FormData();
+    formData.set("msg", input);
+
+    await getAnswer(formData)
+      .then(({ data }) => {
+        const botResponse = {
+          text: data,
+          sender: "bot",
+          time:getTime(),
+        };
+        setMessages((prev) => [...prev, botResponse]);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     setInput("");
   };
