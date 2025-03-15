@@ -9,7 +9,7 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff, ArrowBack } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthProvider";
 
 export default function LoginPage() {
@@ -47,7 +47,8 @@ export default function LoginPage() {
       <Box
         sx={{
           width: "100%",
-          bgcolor: "#d9a8a8",
+          bgcolor: "#E6DBFF",
+          color: "#008080",
           p: 4,
           borderRadius: 2,
           boxShadow: 3,
@@ -65,6 +66,7 @@ export default function LoginPage() {
             variant="outlined"
             type="email"
             name="email"
+            sx={{ backgroundColor: "white" }}
             value={formData.email}
             onChange={handleChange}
           />
@@ -73,6 +75,7 @@ export default function LoginPage() {
             margin="normal"
             label="Password"
             variant="outlined"
+            sx={{ backgroundColor: "white" }}
             type={showPassword ? "text" : "password"}
             name="password"
             value={formData.password}
@@ -87,7 +90,17 @@ export default function LoginPage() {
               ),
             }}
           />
-
+          <Box sx={{ display: "flex", justifyContent: "end" }}>
+            <NavLink
+              to={"/forgot-password"}
+              style={{
+                textDecoration: "none",
+                color: "#008080",
+              }}
+            >
+              <b>Forgot Password</b>
+            </NavLink>
+          </Box>
           <Button
             fullWidth
             variant="contained"
@@ -108,21 +121,19 @@ export default function LoginPage() {
             justifyContent: "space-between",
             alignItems: "center",
             mt: 2,
+            mx: { xs: "15%", md: "25%" },
           }}
         >
-          <IconButton onClick={() => navigate(-1)}>
-            <ArrowBack />
-          </IconButton>
           <Typography>
             <b>Don't have an account?</b>
-            <Button
-              onClick={() => navigate("/register")}
-              sx={{ textTransform: "none", fontWeight: "bold" }}
-            >
-              {" "}
-              Register
-            </Button>
           </Typography>
+          <Button
+            onClick={() => navigate("/register")}
+            sx={{ textTransform: "none", fontWeight: "bold" }}
+          >
+            {" "}
+            Register
+          </Button>
         </Box>
       </Box>
     </Container>

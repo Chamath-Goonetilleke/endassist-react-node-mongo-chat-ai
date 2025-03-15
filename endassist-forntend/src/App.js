@@ -11,6 +11,9 @@ import AboutUsPage from "./pages/AboutUsPage";
 import PersonalizedCarePage from "./pages/PersonalizedCarePage";
 import ChatAssistant from "./pages/ChatAssistantPage";
 import ChatDrawer from "./components/ChatDrawer";
+import DietaryPlanPage from "./pages/DietaryPlanPage";
+import EndometriosisResourcePage from "./pages/EndometriosisResourcePage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 function ProtectedRoute({ element }) {
   const { user, token } = useAuth();
@@ -34,6 +37,9 @@ function App() {
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/personalized-care" element={<PersonalizedCarePage />} />
         <Route path="/diagnosis" element={<ChatDrawer />} />
+        <Route path="/dietary-plan" element={<DietaryPlanPage />} />
+        <Route path="/edu-resource" element={<EndometriosisResourcePage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
       </Routes>
       <ToastContainer position="top-right" />
       <Footer />

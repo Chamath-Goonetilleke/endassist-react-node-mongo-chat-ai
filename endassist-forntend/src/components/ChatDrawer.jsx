@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import ChatAssistant from "../pages/ChatAssistantPage";
+import { NavLink } from "react-router-dom";
 
 export default function ChatDrawer() {
   const [open, setOpen] = React.useState(false);
@@ -22,7 +23,12 @@ export default function ChatDrawer() {
 
   return (
     <div>
-      <Button onClick={toggleDrawer(true)}>Open drawer</Button>
+      <NavLink
+        onClick={toggleDrawer(true)}
+        style={{ fontWeight: "normal", color: "black", textDecoration: "none" }}
+      >
+        Diagnosis
+      </NavLink>
       <Drawer open={open} onClose={toggleDrawer(false)} anchor="right">
         {DrawerList}
       </Drawer>

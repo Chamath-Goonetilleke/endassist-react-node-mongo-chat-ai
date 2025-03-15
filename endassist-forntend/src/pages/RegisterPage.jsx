@@ -60,7 +60,8 @@ export default function RegisterPage() {
       <Box
         sx={{
           width: "100%",
-          bgcolor: "#d9a8a8",
+          bgcolor: "#E6DBFF",
+          color: "#008080",
           p: 4,
           borderRadius: 2,
           boxShadow: 3,
@@ -77,6 +78,7 @@ export default function RegisterPage() {
             label="Username"
             variant="outlined"
             name="name"
+            sx={{ backgroundColor: "white" }}
             value={formData.name}
             onChange={handleChange}
           />
@@ -86,6 +88,7 @@ export default function RegisterPage() {
             label="Email"
             variant="outlined"
             type="email"
+            sx={{ backgroundColor: "white" }}
             name="email"
             value={formData.email}
             onChange={handleChange}
@@ -97,6 +100,7 @@ export default function RegisterPage() {
             variant="outlined"
             type="date"
             name="dob"
+            sx={{ backgroundColor: "white" }}
             InputLabelProps={{ shrink: true }}
             value={formData.dob}
             onChange={handleChange}
@@ -108,6 +112,7 @@ export default function RegisterPage() {
             variant="outlined"
             type={showPassword ? "text" : "password"}
             name="password"
+            sx={{ backgroundColor: "white" }}
             value={formData.password}
             onChange={handleChange}
             InputProps={{
@@ -128,6 +133,7 @@ export default function RegisterPage() {
             type={showConfirmPassword ? "text" : "password"}
             name="confirmPassword"
             value={formData.confirmPassword}
+            sx={{ backgroundColor: "white" }}
             onChange={handleChange}
             InputProps={{
               endAdornment: (
@@ -163,21 +169,18 @@ export default function RegisterPage() {
             justifyContent: "space-between",
             alignItems: "center",
             mt: 2,
+            mx: { xs: "15%", md: "25%" },
           }}
         >
-          <IconButton onClick={() => navigate(-1)}>
-            <ArrowBack />
-          </IconButton>
           <Typography>
             <b>Already have an account?</b>
-            <Button
-              onClick={() => navigate("/login")}
-              sx={{ textTransform: "none", fontWeight: "bold" }}
-            >
-              {" "}
-              Log in
-            </Button>
           </Typography>
+          <Button
+            onClick={() => navigate("/login")}
+            sx={{ textTransform: "none", fontWeight: "bold" }}
+          >
+            Log in
+          </Button>
         </Box>
       </Box>
     </Container>

@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
-  Container,
   Grid,
   Card,
   CardHeader,
@@ -148,23 +147,10 @@ const ChatAssistant = () => {
     e.preventDefault();
     if (input.trim() === "") return;
 
-    
-
-    // Add user message
     setMessages([
       ...messages,
       { text: input, sender: "user", time: getTime() },
     ]);
-
-    // Simulate bot response
-    // setTimeout(() => {
-    //   const botResponse = {
-    //     text: "I'm a medical chatbot. How can I help you today?",
-    //     sender: "bot",
-    //     time,
-    //   };
-    //   setMessages((prev) => [...prev, botResponse]);
-    // }, 1000);
 
     const formData =  new FormData();
     formData.set("msg", input);

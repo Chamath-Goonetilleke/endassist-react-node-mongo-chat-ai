@@ -10,8 +10,14 @@ import {
   Button,
   Box,
   useMediaQuery,
+  Modal,
+  Backdrop,
+  Fade,
+  Dialog,
+  DialogContent,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { getRecommendation } from "../services/chatService";
 
 export default function PersonalizedCarePage() {
   const theme = useTheme();
@@ -26,6 +32,11 @@ export default function PersonalizedCarePage() {
     hygieneProducts: [],
     dietaryPreferences: [],
   });
+
+  // State for modal visibility and response data
+  const [openModal, setOpenModal] = useState(false);
+  const [recommendation, setRecommendation] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   // Handle Checkbox Change
   const handleCheckboxChange = (event, category) => {
@@ -48,14 +59,28 @@ export default function PersonalizedCarePage() {
   };
 
   // Handle Form Submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form Data Submitted:", formData);
-    alert("Your recommendations will be generated!");
+    setIsLoading(true);
+    try {
+      const { data } = await getRecommendation(formData);
+      console.log(data)
+      setRecommendation(data); // Store response
+      setOpenModal(true); // Open modal
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      console.error("Error fetching recommendation:", err);
+    }
+  };
+
+  // Close Modal
+  const handleClose = () => {
+    setOpenModal(false);
   };
 
   return (
-    <Box sx={{display:"flex", justifyContent:"center"}} >
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
       <Container sx={{ py: 4, bgcolor: "#f5f5f5", borderRadius: 2, m: "2rem" }}>
         <Typography
           variant={isMobile ? "h5" : "h4"}
@@ -239,14 +264,63 @@ export default function PersonalizedCarePage() {
               variant="contained"
               color="success"
               size="large"
+              loading={isLoading}
+              loadingPosition="end"
             >
               Get Recommendations
             </Button>
           </Box>
         </form>
+
+        <Dialog fullWidth open={openModal}>
+          <DialogContent>
+            <Box sx={{ m: "1rem" }}>
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                gutterBottom
+                mt={"1rem"}
+              >
+                Meals
+              </Typography>
+              <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
+                {recommendation.meals}
+              </Typography>
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                gutterBottom
+                mt={"1rem"}
+              >
+                Products
+              </Typography>
+              <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
+                {recommendation.products}
+              </Typography>
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                gutterBottom
+                mt={"1rem"}
+              >
+                Tips
+              </Typography>
+              <Typography variant="body1" sx={{ whiteSpace: "pre-line" }}>
+                {recommendation.tips}
+              </Typography>
+              <Box textAlign="center" mt={3}>
+                <Button
+                  variant="contained"
+                  color="success"
+                  onClick={handleClose}
+                >
+                  Close
+                </Button>
+              </Box>
+            </Box>
+          </DialogContent>
+        </Dialog>
       </Container>
     </Box>
   );
-};
-
-
+}

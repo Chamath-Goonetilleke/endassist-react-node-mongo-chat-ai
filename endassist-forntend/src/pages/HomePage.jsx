@@ -1,6 +1,7 @@
 import { Box, Typography } from '@mui/material'
 import React from 'react'
-import Layout from '../components/common/Layout';
+import { NavLink } from 'react-router-dom';
+import TypingEffect from '../components/TypeEffect';
 
 export default function HomePage() {
   return (
@@ -18,8 +19,8 @@ export default function HomePage() {
             ml: { xs: "0rem", md: "2rem" },
             display: "flex",
             justifyContent: "center",
-            width: { xs: "100%", md: "20%" },
-            height: { xs: "80%" },
+            width: { xs: "100%", md: "30%" },
+            height: { xs: "60%" },
           }}
         >
           <img
@@ -30,7 +31,7 @@ export default function HomePage() {
         </Box>
         <Box
           sx={{
-            width: { xs: "100%", md: "60%" },
+            width: { xs: "100%", md: "65%" },
             height: { xs: "250px", md: "400px" },
             my: "1rem",
             borderRadius: "100px 0px 100px 100px",
@@ -59,6 +60,14 @@ export default function HomePage() {
             Let’s make your journey toward comfort and care a little easier. “
           </Typography>
         </Box>
+      </Box>
+      <Box sx={{ my: 5 }}>
+        <center>
+          <TypingEffect
+            text="Did you know? Women with endometriosis often experience delayed diagnosis. 🩺"
+            speed={200}
+          />
+        </center>
       </Box>
       <Box sx={{ mb: "3rem" }}>
         <Box
@@ -90,7 +99,16 @@ export default function HomePage() {
                 fontSize: { xs: "15px", md: "28px" },
               }}
             >
-              Personalized Care
+              <NavLink
+                to={"/personalized-care"}
+                style={{
+                  fontWeight: "normal",
+                  color: "black",
+                  textDecoration: "none",
+                }}
+              >
+                Personalized Care
+              </NavLink>
             </Typography>
           </Box>
           <Box
@@ -113,7 +131,16 @@ export default function HomePage() {
                 fontSize: { xs: "15px", md: "28px" },
               }}
             >
-              Make your own Dietary plan
+              <NavLink
+                to={"/dietary-plan"}
+                style={{
+                  fontWeight: "normal",
+                  color: "black",
+                  textDecoration: "none",
+                }}
+              >
+                Make your own Dietary plan
+              </NavLink>
             </Typography>
           </Box>
           <Box
@@ -136,7 +163,16 @@ export default function HomePage() {
                 fontSize: { xs: "15px", md: "28px" },
               }}
             >
-              Endometriosis Diagnosis
+              <NavLink
+                to={"/diagnosis"}
+                style={{
+                  fontWeight: "normal",
+                  color: "black",
+                  textDecoration: "none",
+                }}
+              >
+                Endometriosis Diagnosis
+              </NavLink>
             </Typography>
           </Box>
         </Box>
