@@ -5,7 +5,7 @@ export default function ImageContentCard({heading, text, img}) {
   return (
     <Box sx={{ position: "relative", width: "100%" }}>
       <img
-        src="/assets/images/landing-banner.png"
+        src={img}
         alt="landing banner"
         style={{ width: "100%", display: "block", maxHeight: "60vh" }}
       />
@@ -23,14 +23,14 @@ export default function ImageContentCard({heading, text, img}) {
           backgroundColor: "#FCE5F8",
           padding: "10px 20px",
           borderRadius: "8px",
-          display:'flex', 
-          flexDirection:'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '190px',
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "190px",
         }}
       >
-        Empower Your Endometriosis Journey Today
+        {heading}
         <Box
           sx={{
             width: "80%",
@@ -40,9 +40,7 @@ export default function ImageContentCard({heading, text, img}) {
             pt: { xs: "12px", md: "20px" },
           }}
         >
-          Receive symptom analysis and insights to understand your condition
-          better. Our intelligent diagnosis system helps you track and assess
-          your health for better decision-making.
+          {text}
         </Box>
       </Box>
     </Box>

@@ -10,9 +10,6 @@ import {
   Button,
   Box,
   useMediaQuery,
-  Modal,
-  Backdrop,
-  Fade,
   Dialog,
   DialogContent,
 } from "@mui/material";

@@ -1,8 +1,13 @@
-import { Box, Button, TextField, Typography } from '@mui/material';
-import React from 'react'
-import { NavLink } from 'react-router-dom';
+import { Box, Button, TextField, Typography } from "@mui/material";
+import React from "react";
+import { NavLink } from "react-router-dom";
 
-export default function VerifyOTP({ formData, handleSubmit, handleChange }) {
+export default function VerifyOTP({
+  formData,
+  handleSubmit,
+  handleChange,
+  resend,
+}) {
   return (
     <Box
       sx={{
@@ -22,12 +27,12 @@ export default function VerifyOTP({ formData, handleSubmit, handleChange }) {
         <TextField
           fullWidth
           margin="normal"
-          label="Email"
+          label="Code"
           variant="outlined"
-          type="email"
-          name="email"
+          type="number"
+          name="otp"
           sx={{ backgroundColor: "white" }}
-          value={formData.email}
+          value={formData.otp}
           onChange={handleChange}
         />
 
@@ -53,17 +58,9 @@ export default function VerifyOTP({ formData, handleSubmit, handleChange }) {
           mt: 2,
         }}
       >
-        <NavLink
-          to={"/login"}
-          style={{
-            textDecoration: "none",
-            color: "#008080",
-          }}
-        >
-          <Typography>
-            <b>Resend Code</b>
-          </Typography>
-        </NavLink>
+        <Button sx={{ color: "#008080" }} onClick={resend}>
+          <b>Resend Code</b>
+        </Button>
       </Box>
     </Box>
   );

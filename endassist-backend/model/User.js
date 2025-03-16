@@ -5,7 +5,8 @@ const userSchema = new Schema({
     name: {type:String},
     email: {type:String},
     dob:{type:String},
-    password: {type:String}
+    password: {type:String},
+    meals:{type:String}
 })
 
 userSchema.methods.generateAuthToken = function () {

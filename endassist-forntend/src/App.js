@@ -9,7 +9,6 @@ import LoginPage from "./pages/LoginPage";
 import { ToastContainer } from "react-toastify";
 import AboutUsPage from "./pages/AboutUsPage";
 import PersonalizedCarePage from "./pages/PersonalizedCarePage";
-import ChatAssistant from "./pages/ChatAssistantPage";
 import ChatDrawer from "./components/ChatDrawer";
 import DietaryPlanPage from "./pages/DietaryPlanPage";
 import EndometriosisResourcePage from "./pages/EndometriosisResourcePage";
@@ -17,11 +16,11 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 function ProtectedRoute({ element }) {
   const { user, token } = useAuth();
-  return user && token ? element : <Navigate to="/" replace />;
+  return user && token ? element : <Navigate to="/login" replace />;
 }
 
 function App() {
-  const { user, token } = useAuth();
+  const { user } = useAuth();
 
   return (
     <>

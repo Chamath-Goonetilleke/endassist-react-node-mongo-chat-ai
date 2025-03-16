@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -14,6 +14,9 @@ import {
   Box,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { GetMeals, UpdateMeals } from "../services/userService";
+import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthProvider";
 
 const mealCategories = ["Breakfast", "Lunch", "Dinner", "Extra"];
 
@@ -28,6 +31,29 @@ export default function DietaryPlanPage() {
     Dinner: [],
     Extra: [],
   });
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      fetchMeals();
+    }
+  }, [user]);
+
+  const fetchMeals = async () => {
+    if (!user || !user._id) {
+      console.log("User not available");
+      return;
+    }
+
+    try {
+      const { data } = await GetMeals(user._id);
+      if (data.success) {
+        setMeals(JSON.parse(data.meals));
+      }
+    } catch (err) {
+      console.log("Error fetching meals:", err);
+    }
+  };
 
   const handleOpen = (category) => {
     setSelectedCategory(category);
@@ -53,14 +79,41 @@ export default function DietaryPlanPage() {
     handleClose();
   };
 
-  const handleSave = () => {
-    console.log("Saved Dietary Plan:", meals);
+  const handleSave = async () => {
+    if (!user || !user._id) {
+      toast.error("User not logged in");
+      return;
+    }
+
+    try {
+      const { data } = await UpdateMeals({
+        id: user._id,
+        meals: JSON.stringify(meals),
+      });
+      toast.success(data);
+    } catch (err) {
+      toast.error("Error saving meals");
+      console.log("Save error:", err);
+    }
   };
+
+  // Show a message if user is not logged in
+  if (!user) {
+    return (
+      <Box sx={{ p: 3, textAlign: "center", height:'70vh', display:"flex", justifyContent:"center", alignItems:"center" }}>
+        <Typography variant="h6">
+          Please log in to access your dietary plan
+        </Typography>
+      </Box>
+    );
+  }
 
   return (
     <Box>
-      <Box sx={{ p: 3, textAlign: "center", height: { xs: "100%" , md:"70vh"} }}>
-        <Typography variant="h5" gutterBottom>
+      <Box
+        sx={{ p: 3, textAlign: "center", height: { xs: "100%", md: "70vh" } }}
+      >
+        <Typography variant="h5" fontWeight="bold" mb={"2rem"} gutterBottom>
           Make your own Dietary Plan
         </Typography>
         <Grid container spacing={2} justifyContent="center">
@@ -68,14 +121,14 @@ export default function DietaryPlanPage() {
             <Grid item xs={12} sm={6} md={3} key={category}>
               <Card sx={{ bgcolor: "#fbeeff", p: 2 }}>
                 <CardContent>
-                  <Typography variant="h6" gutterBottom>
-                    {category}
+                  <Typography variant="h6" fontWeight="bold" gutterBottom>
+                    <u>{category}</u>
                   </Typography>
                   <IconButton onClick={() => handleOpen(category)}>
                     <AddIcon />
                   </IconButton>
                   {meals[category].map((meal, index) => (
-                    <Typography key={index}>
+                    <Typography key={index} sx={{ fontSize: "18px" }}>
                       {meal.name} - {meal.portion}
                     </Typography>
                   ))}

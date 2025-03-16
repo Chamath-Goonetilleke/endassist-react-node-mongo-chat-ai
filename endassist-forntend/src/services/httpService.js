@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "https://endassist-api.vercel.app";
+axios.defaults.baseURL = "http://localhost:8080";
 
 const http = {
   get: axios.get,

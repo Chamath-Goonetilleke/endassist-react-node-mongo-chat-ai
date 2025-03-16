@@ -1,7 +1,6 @@
 import { Box, Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
-import { Visibility, VisibilityOff, ArrowBack } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 export default function NewPassword({ formData, handleSubmit, handleChange }) {
     const [showPassword, setShowPassword] = useState(false);
 

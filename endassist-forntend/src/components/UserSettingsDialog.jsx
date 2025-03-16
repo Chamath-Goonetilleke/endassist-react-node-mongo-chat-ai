@@ -23,7 +23,6 @@ export default function UserSettingsDialog({ open, handleClose }) {
 
   useEffect(() => {
     if (user) {
-        console.log(user)
       setFormData({
         name: user.name || "",
         dateOfBirth: user.dob || "",
@@ -52,8 +51,10 @@ export default function UserSettingsDialog({ open, handleClose }) {
   const handleDeleteAccount = async () => {
     try {
       await deleteAccount();
+      setShowDeleteConfirm(true);
       handleClose();
     } catch (error) {
+      setShowDeleteConfirm(true);
       console.error("Failed to delete account:", error);
     }
   };

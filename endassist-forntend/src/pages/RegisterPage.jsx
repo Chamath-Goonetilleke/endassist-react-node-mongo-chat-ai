@@ -8,7 +8,7 @@ import {
   IconButton,
   InputAdornment,
 } from "@mui/material";
-import { Visibility, VisibilityOff, ArrowBack } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { RegisterUser } from "../services/userService";
 import { toast } from "react-toastify";
@@ -32,18 +32,21 @@ export default function RegisterPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       toast.error("Passwords do not match");
       return;
     }
-    await RegisterUser(formData).then(({data})=>{
+    await RegisterUser(formData)
+      .then(({ data }) => {
         toast.success(data);
-    }).catch((err)=>{
+        navigate("/login");
+      })
+      .catch((err) => {
         console.log(err.response.data);
         toast.error(err.response.data);
-    });
+      });
   };
 
   return (

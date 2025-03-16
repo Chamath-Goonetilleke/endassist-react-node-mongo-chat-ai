@@ -1,6 +1,6 @@
 import express from "express";
 import { body } from "express-validator";
-import { deleteUser, getUserById, login, registerUser } from "../controller/userController.js";
+import { deleteUser, getMeals, getUserById, login, registerUser, sendOTP, updateMeals, updatePassword, updateUser, verifyOtp } from "../controller/userController.js";
 const router  = express.Router();
 
 router.post("/register", [
@@ -19,5 +19,15 @@ router.post("/register", [
 router.post("/login", login);
 router.get("/:id", getUserById);
 router.delete("/deleteUser/:id", deleteUser);
+
+router.post("/send-otp", sendOTP);
+router.post("/verify-otp", verifyOtp);
+router.put("/update-password", updatePassword);
+router.put("/update-user", updateUser);
+router.put("/update-meal", updateMeals);
+
+router.get("/meals/:id", getMeals);
+
+
 
 export default router;

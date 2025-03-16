@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { LoginUser } from "../services/userService";
+import { DeleteUser, LoginUser, UpdateUser } from "../services/userService";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +30,6 @@ export function AuthProvider({ children }) {
         setUser(user);
         navigate("/");
         toast.success("Welcome, " + user.name);
-        
       })
       .catch((err) => {
         toast.error(err.response.data);
@@ -41,11 +40,39 @@ export function AuthProvider({ children }) {
     setUser(null);
     setToken("");
     localStorage.removeItem("token");
-    navigate("/login")
+    navigate("/login");
   };
 
+  const deleteAccount = async () => {
+    await DeleteUser(user._id)
+      .then(({ data }) => {
+        setUser(null);
+        setToken("");
+        localStorage.removeItem("token");
+        toast.success(data);
+        navigate("/register");
+      })
+      .catch((err) => {
+        toast.error("Error deleting account");
+      });
+  };
+
+  const updateUserProfile = async (userData) => {
+    await UpdateUser({...userData, id: user._id}).then(({data})=>{
+      setToken(data.token);
+      const user = jwtDecode(data.token);
+      setUser(user);
+      toast.success(data.message)
+    }).catch((err)=>{
+      console.log(err)
+      toast.error("Error updating user profile")
+    })
+  }
+
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider
+      value={{ user, token, login, logout, deleteAccount, updateUserProfile }}
+    >
       {children}
     </AuthContext.Provider>
   );

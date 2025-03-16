@@ -81,12 +81,36 @@ export default function LandingPage() {
           </Button>
         </Box>
 
-        <Box sx={{display:'flex', flexDirection:{xs:"column", md:"row"}, justifyContent:'space-between', gap:3, width:'100%', mb:"200px"}}>
-          <ImageContentCard />
-          <ImageContentCard />
-          <ImageContentCard />
+        <Box
+          sx={{
+            mt:"2rem",
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "space-between",
+            gap: 3,
+            width: "100%",
+            mb: "200px",
+          }}
+        >
+          <ImageContentCard
+            img={"/assets/images/land1.png"}
+            heading={"Personalized care"}
+            text={"Get expert hygiene tips and product recommendations and nutrition support to maintain your well-being. Stay informed about the best practices for managing your health with ease."}
+          />
+          <ImageContentCard
+            img={"/assets/images/land2.png"}
+            heading={"Diagnosis"}
+            text={
+              "Receive symptom analysis and insights to understand your condition better. Our intelligent diagnosis system helps you track and assess your health for better decision-making."}
+          />
+          <ImageContentCard
+            img={"/assets/images/land3.png"}
+            heading={"Dietary Plan"}
+            text={
+              "Make your own dietary plan with the help of EndOAssist. Best foods to support your well-being and improve your lifestyle."
+            }
+          />
         </Box>
-        
       </Layout>
     </Box>
   );
