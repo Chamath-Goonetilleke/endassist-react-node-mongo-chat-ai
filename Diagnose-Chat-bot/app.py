@@ -9,9 +9,10 @@ from dotenv import load_dotenv
 from src.prompt import system_prompt_general, system_prompt_menstrual
 import os
 import re
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+CORS(app)
 load_dotenv()
 
 PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')
