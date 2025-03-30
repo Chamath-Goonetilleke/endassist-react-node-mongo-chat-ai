@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import User from "../model/User.js";
 import * as crypto from "crypto";
 import { sendOTPEmail, verifyOTP } from "../util/emailService.js";
+import uploadToCloudinary from "../util/imageUpload.js";
 
 export async function registerUser(req, res) {
   try {
@@ -116,24 +117,60 @@ export async function updatePassword(req, res) {
 
 export async function updateUser(req, res) {
   try {
-    console.log("first")
-    const { id, name, dateOfBirth } = req.body;
+    // Get user ID from authenticated user rather than request body for security
+    const id = req.user ? req.user._id : req.body.id;
+    const { name, dateOfBirth } = req.body;
+
+    // Check if avatar file exists in the request
+    const avatarFile = req.file;
+
     const user = await User.findById(id);
+    if (!user) return res.status(404).send("User not found");
 
-    user.name = name;
-    user.dob = dateOfBirth;
+    // Update user profile data
+    if (name) user.name = name;
+    if (dateOfBirth) user.dob = dateOfBirth;
 
+    // Handle image upload if file exists
+    if (avatarFile) {
+      try {
+        const result = await uploadToCloudinary(avatarFile.buffer, {
+          folder: "user_avatars",
+          public_id: `user_${id}_${Date.now()}`,
+          resource_type: "image",
+          transformation: [{ width: 500, height: 500, crop: "limit" }],
+        });
+
+        // Save the secure URL to user profile
+        user.imgUrl = result.secure_url;
+      } catch (uploadError) {
+        console.error("Error uploading to Cloudinary:", uploadError);
+        return res.status(500).send("Failed to upload image");
+      }
+    }
+
+    // Save the updated user
     await user.save();
 
-    console.log(user)
-
+    // Generate new token with updated user info
     const token = user.generateAuthToken();
-    console.log(token)
-    res.header("x-auth-token", token);
-    res.status(200).send({ token: token, message: "Updated successfully" });
 
+    // Return success response with new token
+    res.header("x-auth-token", token);
+    return res.status(200).json({
+      success: true,
+      token: token,
+      message: "Profile updated successfully",
+      user: {
+        name: user.name,
+        email: user.email,
+        dob: user.dob,
+        imgUrl: user.imgUrl,
+      },
+    });
   } catch (error) {
-    res.status(500).send(error);
+    console.error("Error updating user:", error);
+    return res.status(500).send(error.message || "Server error");
   }
 }
 

@@ -13,6 +13,7 @@ import ChatDrawer from "./components/ChatDrawer";
 import DietaryPlanPage from "./pages/DietaryPlanPage";
 import EndometriosisResourcePage from "./pages/EndometriosisResourcePage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import DiagnosePage from "./pages/DiagnosePage";
 
 function ProtectedRoute({ element }) {
   const { user, token } = useAuth();
@@ -35,7 +36,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/personalized-care" element={<PersonalizedCarePage />} />
-        <Route path="/diagnosis" element={<ChatDrawer />} />
+        <Route path="/diagnosis" element={<DiagnosePage />} />
         <Route path="/dietary-plan" element={<DietaryPlanPage />} />
         <Route path="/edu-resource" element={<EndometriosisResourcePage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />

@@ -218,7 +218,31 @@ export default function Header() {
                       </NavLink>
                     );
                   } else {
-                    return <ChatDrawer key={index} />;
+                    if(user){
+                      return <ChatDrawer key={index} />;
+                    }else{
+                      return (
+                        <NavLink
+                          key={index}
+                          to={page.url}
+                          onClick={() => setSelectedPage(page.name)}
+                          style={{
+                            textDecoration:
+                              page.name === selectedPage ? "underline" : "none",
+                            textDecorationThickness:
+                              page.name === selectedPage ? "4px" : "none",
+                            textDecorationColor:
+                              page.name === selectedPage ? "#008080" : "none",
+                            textUnderlineOffset: "5px",
+                            color: "black",
+                            fontWeight:
+                              page.name === selectedPage ? "bold" : "normal",
+                          }}
+                        >
+                          {page.name}
+                        </NavLink>
+                      );
+                    }
                   }
                 })}
               </Box>
@@ -229,7 +253,7 @@ export default function Header() {
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       alt={user.name}
-                      src={user.avatarUrl || "/static/images/avatar/2.jpg"}
+                      src={user.imgUrl || "/static/images/avatar/2.jpg"}
                     />
                   </IconButton>
                 </Tooltip>

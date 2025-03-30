@@ -6,7 +6,8 @@ const userSchema = new Schema({
     email: {type:String},
     dob:{type:String},
     password: {type:String},
-    meals:{type:String}
+    meals:{type:String},
+    imgUrl: {type:String},
 })
 
 userSchema.methods.generateAuthToken = function () {
@@ -16,6 +17,7 @@ userSchema.methods.generateAuthToken = function () {
       email: this.email,
       name: this.name,
       dob:this.dob,
+      imgUrl: this.imgUrl
     },
     process.env.JWT_PRIVATE_KEY
   );

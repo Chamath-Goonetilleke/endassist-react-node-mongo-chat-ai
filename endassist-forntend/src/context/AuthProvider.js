@@ -58,15 +58,25 @@ export function AuthProvider({ children }) {
   };
 
   const updateUserProfile = async (userData) => {
-    await UpdateUser({...userData, id: user._id}).then(({data})=>{
-      setToken(data.token);
-      const user = jwtDecode(data.token);
-      setUser(user);
-      toast.success(data.message)
-    }).catch((err)=>{
-      console.log(err)
-      toast.error("Error updating user profile")
-    })
+    const formDataToSend = new FormData();
+    formDataToSend.append("id", user._id)
+    formDataToSend.append("name", userData.name);
+    formDataToSend.append("dateOfBirth", userData.dateOfBirth);
+
+    if (userData.avatarFile) {
+      formDataToSend.append("avatar", userData.avatarFile);
+    }
+    await UpdateUser(formDataToSend)
+      .then(({ data }) => {
+        setToken(data.token);
+        const user = jwtDecode(data.token);
+        setUser(user);
+        toast.success(data.message);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Error updating user profile");
+      });
   }
 
   return (

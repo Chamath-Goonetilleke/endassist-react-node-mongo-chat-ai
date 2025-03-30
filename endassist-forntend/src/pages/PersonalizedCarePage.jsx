@@ -15,10 +15,12 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { getRecommendation } from "../services/chatService";
+import { useAuth } from "../context/AuthProvider";
 
 export default function PersonalizedCarePage() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { user } = useAuth();
 
   // State to manage form inputs
   const [formData, setFormData] = useState({
@@ -61,7 +63,7 @@ export default function PersonalizedCarePage() {
     setIsLoading(true);
     try {
       const { data } = await getRecommendation(formData);
-      console.log(data)
+      console.log(data);
       setRecommendation(data); // Store response
       setOpenModal(true); // Open modal
       setIsLoading(false);
@@ -76,9 +78,43 @@ export default function PersonalizedCarePage() {
     setOpenModal(false);
   };
 
+  if (!user) {
+    return (
+      <Box
+        sx={{
+          p: 3,
+          textAlign: "center",
+          height: "70vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <img
+          src="/assets/images/land1.png"
+          alt="landing banner"
+          style={{
+            width: "100%",
+            display: "block",
+            maxHeight: "100%",
+            opacity: 0.2,
+          }}
+        />
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          sx={{ position: "absolute" }}
+        >
+          Please log in to access personalized care
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
-      <Container sx={{ py: 4, bgcolor: "#f5f5f5", borderRadius: 2, m: "2rem" }}>
+      <Container sx={{ py: 4, bgcolor: "#fbeeff", borderRadius: 2, m: "2rem" }}>
         <Typography
           variant={isMobile ? "h5" : "h4"}
           fontWeight="bold"

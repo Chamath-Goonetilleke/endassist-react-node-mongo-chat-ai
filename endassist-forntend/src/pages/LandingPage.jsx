@@ -2,8 +2,11 @@ import { Box, Button } from '@mui/material'
 import React from 'react'
 import Layout from '../components/common/Layout';
 import ImageContentCard from '../components/landingPage/ImageContentCard';
+import { useNavigate } from 'react-router-dom';
 
 export default function LandingPage() {
+  const navigate = useNavigate();
+
   return (
     <Box>
       <Box sx={{ position: "relative", width: "100%" }}>
@@ -76,6 +79,7 @@ export default function LandingPage() {
               width: { xs: "100px", md: "150px" },
               height: { xs: "30px", md: "50px" },
             }}
+            onClick={() => navigate("/login")}
           >
             Log In
           </Button>
@@ -83,7 +87,7 @@ export default function LandingPage() {
 
         <Box
           sx={{
-            mt:"2rem",
+            mt: "2rem",
             display: "flex",
             flexDirection: { xs: "column", md: "row" },
             justifyContent: "space-between",
@@ -95,13 +99,16 @@ export default function LandingPage() {
           <ImageContentCard
             img={"/assets/images/land1.png"}
             heading={"Personalized care"}
-            text={"Get expert hygiene tips and product recommendations and nutrition support to maintain your well-being. Stay informed about the best practices for managing your health with ease."}
+            text={
+              "Get expert hygiene tips and product recommendations and nutrition support to maintain your well-being. Stay informed about the best practices for managing your health with ease."
+            }
           />
           <ImageContentCard
             img={"/assets/images/land2.png"}
             heading={"Diagnosis"}
             text={
-              "Receive symptom analysis and insights to understand your condition better. Our intelligent diagnosis system helps you track and assess your health for better decision-making."}
+              "Receive symptom analysis and insights to understand your condition better. Our intelligent diagnosis system helps you track and assess your health for better decision-making."
+            }
           />
           <ImageContentCard
             img={"/assets/images/land3.png"}

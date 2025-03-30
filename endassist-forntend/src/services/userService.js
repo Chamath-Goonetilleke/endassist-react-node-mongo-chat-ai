@@ -23,7 +23,11 @@ export async function VerifyOtp(email, otp) {
 }
 
 export async function UpdateUser(data) {
-  return await http.put(endpoint + "/update-user", data);
+  return await http.put(endpoint + "/update-user", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 }
 
 export async function updatePassword(data) {

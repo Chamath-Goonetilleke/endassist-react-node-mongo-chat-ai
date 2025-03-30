@@ -97,11 +97,34 @@ export default function DietaryPlanPage() {
     }
   };
 
-  // Show a message if user is not logged in
   if (!user) {
     return (
-      <Box sx={{ p: 3, textAlign: "center", height:'70vh', display:"flex", justifyContent:"center", alignItems:"center" }}>
-        <Typography variant="h6">
+      <Box
+        sx={{
+          p: 3,
+          textAlign: "center",
+          height: "70vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <img
+          src="/assets/images/land3.png"
+          alt="landing banner"
+          style={{
+            width: "100%",
+            display: "block",
+            maxHeight: "100%",
+            opacity: 0.2,
+          }}
+        />
+        <Typography
+          variant="h5"
+          fontWeight="bold"
+          sx={{ position: "absolute" }}
+        >
           Please log in to access your dietary plan
         </Typography>
       </Box>

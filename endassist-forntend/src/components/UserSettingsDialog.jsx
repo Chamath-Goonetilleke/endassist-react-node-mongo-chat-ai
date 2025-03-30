@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -8,9 +8,10 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
-import { IconButton, Divider } from "@mui/material";
+import { IconButton, Divider, CircularProgress } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useAuth } from "../context/AuthProvider";
 
 export default function UserSettingsDialog({ open, handleClose }) {
@@ -20,6 +21,10 @@ export default function UserSettingsDialog({ open, handleClose }) {
     dateOfBirth: "",
   });
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [avatarFile, setAvatarFile] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     if (user) {
@@ -27,6 +32,7 @@ export default function UserSettingsDialog({ open, handleClose }) {
         name: user.name || "",
         dateOfBirth: user.dob || "",
       });
+      setAvatarPreview(user?.imgUrl || null);
     }
   }, [user, open]);
 
@@ -38,23 +44,55 @@ export default function UserSettingsDialog({ open, handleClose }) {
     }));
   };
 
+  const handleAvatarClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setAvatarFile(file);
+
+      // Create preview URL
+      const previewUrl = URL.createObjectURL(file);
+      setAvatarPreview(previewUrl);
+    }
+  };
+
+  const handleRemoveAvatar = () => {
+    setAvatarFile(null);
+    setAvatarPreview(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsUploading(true);
+
     try {
-      await updateUserProfile(formData);
+     
+      await updateUserProfile({ ...formData, avatarFile });
+
+      if (avatarPreview && avatarFile) {
+        URL.revokeObjectURL(avatarPreview);
+      }
+
       handleClose();
     } catch (error) {
       console.error("Failed to update profile:", error);
+    } finally {
+      setIsUploading(false);
     }
   };
 
   const handleDeleteAccount = async () => {
     try {
       await deleteAccount();
-      setShowDeleteConfirm(true);
+      setShowDeleteConfirm(false);
       handleClose();
     } catch (error) {
-      setShowDeleteConfirm(true);
       console.error("Failed to delete account:", error);
     }
   };
@@ -88,14 +126,26 @@ export default function UserSettingsDialog({ open, handleClose }) {
         >
           <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 2 }}>
             <Avatar
-              src={user?.avatarUrl || "/static/images/avatar/2.jpg"}
-              alt={user?.name || "User"}
+              src={avatarPreview || "/static/images/avatar/2.jpg"}
+              alt={formData.name || "User"}
               sx={{ width: 80, height: 80 }}
             />
-            <Button variant="outlined" color="primary">
-              Change
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              style={{ display: "none" }}
+            />
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={handleAvatarClick}
+              startIcon={<CloudUploadIcon />}
+            >
+              Upload
             </Button>
-            <IconButton>
+            <IconButton onClick={handleRemoveAvatar} disabled={!avatarPreview}>
               <DeleteIcon />
             </IconButton>
           </Box>
@@ -144,6 +194,7 @@ export default function UserSettingsDialog({ open, handleClose }) {
               variant="contained"
               color="primary"
               type="submit"
+              disabled={isUploading}
               sx={{
                 bgcolor: "#2a8580",
                 "&:hover": { bgcolor: "#1e6b67" },
@@ -151,7 +202,14 @@ export default function UserSettingsDialog({ open, handleClose }) {
                 px: 4,
               }}
             >
-              Save
+              {isUploading ? (
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <CircularProgress size={20} color="inherit" />
+                  <span>Saving...</span>
+                </Box>
+              ) : (
+                "Save"
+              )}
             </Button>
           </Box>
         </Box>
